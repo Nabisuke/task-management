@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <ul>
+            {% for task in tasks  %}
+            <li>{{task.status}}</li>
+
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        {{task_3}}
+        
+    </div>
+    <div>{{task_2}}</div>
+    <div>{{first_task}}</div>
+    
+</body>
+</html>

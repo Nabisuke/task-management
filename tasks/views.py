@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from tasks.forms import TaskForm, TaskModelForm
+from tasks.models import Employee,Task
 # Create your views here.
 
 def manager_dashboard(request):
@@ -20,3 +21,54 @@ def test(request):
         "count": count
     }
     return render(request, 'test.html', context)
+
+def create_task(request):
+    employees = Employee.objects.all()
+    form = TaskModelForm() #For GET
+
+    if request.method == "POST":
+        form = TaskModelForm(request.POST)       
+        if form.is_valid():
+
+            # for model form data
+            form.save()
+            return render(request, 'task_form.html', {"form": form, "message": "Task Added Successfully"})
+
+        # for Django Form Data
+        #     data = form.cleaned_data
+        #     title = data.get('title')
+        #     description = data.get('description')
+        #     due_date = data.get('due_date')
+        #     assigned_to = data.get('assigned_to') #list [1,3]
+
+        #     task = Task.objects.create(title=title,description=description,due_date=due_date)
+        #     for emp_id in assigned_to:
+        #         employee = Employee.objects.get(id=emp_id)
+        #         task.assigned_to.add(employee)
+
+            # return HttpResponse("Task Created Successfully")
+
+    context = {"form": form}
+    return render(request, "task_form.html", context)
+
+def view_task(request):
+    # retrieve all data from tasks model
+    tasks = Task.objects.all()
+
+    # retrieve a specific task
+    task_3 = Task.objects.get(id=1)
+
+    # retrieve a specific task using filter
+    task_2 = Task.objects.filter(id=2)
+
+    # fetch the first task
+    first_task = Task.objects.first()
+
+    context = {
+        "tasks": tasks,
+        "task_3": task_3,
+        "task_2": task_2,
+        "first_task": first_task,
+    }
+
+    return render(request, "show_task.html", context)
