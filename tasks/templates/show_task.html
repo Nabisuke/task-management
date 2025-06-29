@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Tasks</title>
+</head>
+<body>
+    <h2>All Tasks</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.status }}</li>
+        {% empty %}
+            <li>No tasks found.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Task with ID 1</h2>
+    <div>
+        {% if task_1 %}
+            {{ task_1.title }} - {{ task_1.status }}
+        {% else %}
+            No Task with ID 1.
+        {% endif %}
+    </div>
+
+    <h2>Tasks with Status "PENDING"</h2>
+    <ul>
+        {% for task in task_2 %}
+            <li>{{ task.title }} - {{ task.status }}</li>
+        {% empty %}
+            <li>No pending tasks.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Tasks with Due Date Today</h2>
+    <ul>
+        {% for task in today_task %}
+            <li>{{ task.title }} - Due: {{ task.due_date }}</li>
+        {% empty %}
+            <li>No tasks due today.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Tasks with Priority Not LOW</h2>
+    <ul>
+        {% for detail in priority_task %}
+            <li>{{ detail.task.title }} - Priority: {{ detail.get_priority_display }}</li>
+        {% empty %}
+            <li>No high or medium priority tasks.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Tasks Containing 'c'</h2>
+    <ul>
+        {% for task in tasks_with_c %}
+            <li>{{ task.title }} - {{ task.description }}</li>
+        {% empty %}
+            <li>No tasks contain the word 'c'.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Tasks with Status 'PENDING' or 'IN_PROGRESS'</h2>
+    <ul>
+        {% for task in tasks_pending_or_inprogress %}
+            <li>{{ task.title }} - {{ task.status }}</li>
+        {% empty %}
+            <li>No tasks with status 'PENDING' or 'IN_PROGRESS'.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Check for PENDING Task</h2>
+    {% if exists_or_not %}
+        <p>✅ There are tasks with status PENDING.</p>
+    {% else %}
+        <p>❌ No tasks with status PENDING.</p>
+    {% endif %}
+
+
+    <h2>Task Details (with related Task)</h2>
+    <ul>
+        {% for detail in task_details %}
+            <li>
+                Task: {{ detail.task.title }} - Status: {{ detail.task.status }}<br>
+                Priority: {{ detail.get_priority_display }}<br>
+                Notes: {{ detail.notes }}
+            </li>
+        {% empty %}
+            <li>No task details found.</li>
+        {% endfor %}
+    </ul>
+
+
+    <h2>Tasks with Assigned Employees</h2>
+    <ul>
+        {% for task in task_assigned_to %}
+            <li>
+                <strong>{{ task.title }}</strong> - {{ task.status }}
+                <br>
+                Assigned To:
+                <ul>
+                    {% for emp in task.assigned_to.all %}
+                        <li>{{ emp.name }}</li>
+                    {% empty %}
+                        <li>No employees assigned.</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% empty %}
+            <li>No tasks found.</li>
+        {% endfor %}
+    </ul>
+    <h2>Task Summary</h2>
+    <p>Total Tasks: {{ total_counts.total }}</p>
+    <p>Pending Tasks: {{ total_counts.pending }}</p>
+    <p>In Progress Tasks: {{ total_counts.inprogress }}</p>
+
+    <h2>Tasks with Employee Counts</h2>
+    <ul>
+        {% for task in no_of_employee %}
+            <li>
+                {{ task.title }} - Employees assigned: {{ task.num_employees }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+    <h2>First Task</h2>
+    <div>
+        {% if first_task %}
+            {{ first_task.title }} - {{ first_task.status }}
+        {% else %}
+            No tasks available.
+        {% endif %}
+    </div>
+</body>
+</html>
